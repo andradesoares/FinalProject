@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="response" class="mt-5 mx-5 row">
+        <div class="container">
+            <h3 class="mb-3" style="color:#17a2b8;">Rates</h3>
+            <div class="row m-2">
+                {% for passenger in rate %}
+                    <div class="col-lg-3 col-md-6 mb-5 pb-4">
+                        <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                        <a href="{% url 'book' passenger.book %}" class="hover h4" id="singleBook">{{ passenger.title }}</a>
+                        <div>
+                            {% if passenger.rate == 1 %}
+                                <label class="labelrate" title="Bad"></label>
+                            {% elif  passenger.rate == 2 %}
+                                <label class="labelrate" title="Meh"></label>
+                                <label class="labelrate" title="Meh"></label>
+                            {% elif passenger.rate == 3 %}
+                                <label class="labelrate" title="Ok"></label>
+                                <label class="labelrate" title="Ok"></label>
+                                <label class="labelrate" title="Ok"></label>
+                            {% elif passenger.rate == 4 %}
+                                <label class="labelrate" title="Good"></label>
+                                <label class="labelrate" title="Good"></label>
+                                <label class="labelrate" title="Good"></label>
+                                <label class="labelrate" title="Good"></label>
+                            {% else %}
+                                <label class="labelrate" title="Amazing"></label>
+                                <label class="labelrate" title="Amazing"></label>
+                                <label class="labelrate" title="Amazing"></label>
+                                <label class="labelrate" title="Amazing"></label>
+                                <label class="labelrate" title="Amazing"></label>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="container">
+            <h3 class="mb-3" style="color:#17a2b8;">Library</h3>
+            <div class="row mx-2">
+                <div class="col-lg-3 col-md-6 mb-2 mb-md-5">
+                    <p class="mb-4 border-bottom">Wishlist</p>
+                    {% for passenger in status_wishlist %}
+                        <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">    
+                        <a href="{% url 'book' passenger.book %}" class="hover h4 d-block border-bottom" id="singleBook">{{ passenger.title }}</a>
+                    {% empty %}
+                
+                    {% endfor %}
+                </div>
+                <div class="col-lg-3 col-md-6 mb-2 mb-md-5">
+                    <p class="mb-4 border-bottom">To Read</p>
+                    {% for passenger in status_toread %}
+                        <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                        <a href="{% url 'book' passenger.book %}" class="hover h4 d-block border-bottom" id="singleBook">{{ passenger.title }}</a>
+                    {% empty %}
+                
+                    {% endfor %}
+                </div>
+                <div class="col-lg-3 col-md-6 mb-2 mb-md-5">
+                    <p class="mb-4 border-bottom">Reading</p>
+                    {% for passenger in status_reading %}
+                        <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                        <a href="{% url 'book' passenger.book %}" class="hover h4 d-block border-bottom" id="singleBook">{{ passenger.title }}</a>
+                    {% empty %}
+                
+                    {% endfor %}
+                </div>
+                <div class="col-lg-3 col-md-6 mb-2 mb-md-5">
+                    <p class="mb-4 border-bottom">Read</p>
+                    {% for passenger in status_read %}
+                        <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                        <a href="{% url 'book' passenger.book %}" class="hover h4 d-block border-bottom" id="singleBook">{{ passenger.title }}</a>
+                    {% empty %}
+                
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id="reviewsContainer" class="mt-5 container">
+            <h3 class="mb-3" style="color:#17a2b8;">Reviews</h3>
+            {% for passenger in reviews %}
+
+                
+                    <div class="eachreview mx-4">
+                        <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                        <a href="{% url 'book' passenger.book %}" class="hover h4" id="singleBook">{{ passenger.title }}</a>
+                        <p class="text-left mt-4"> {{ passenger.review }}</p>
+                    </div>
+                
+            {% empty %}
+            
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

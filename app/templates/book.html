@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="response" class="mt-5 mx-5 row">
+        <input type="hidden" id="singleBook" name="singleBook" value="{{singleBook}}">
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'book.js' %}"></script>
+{% endblock %}

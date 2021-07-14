@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="response" class="mt-5 mx-5 row" >
+        <div class=" container">
+            <h1 class="mb-3" style="color:#17a2b8;">Lates activities</h1>
+            <div class="row m-2 justify-content-between">
+                <div class="col-lg-4 col-md-12 px-0 mb-md-4">
+                    <h3 class="mb-3" style="color:#17a2b8;">Rates</h3>
+                    {% for passenger in rate %}
+                        <div class=" mb-3 px-3">
+                            <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                            <a href="{% url 'book' passenger.book %}" class="hover" id="singleBook">{{ passenger.title }}</a>
+                            <div>
+                                {% if passenger.rate == 1 %}
+                                    <div class="d-flex justify-content-between border-bottom align-items-baseline">
+                                        <div>
+                                            <label class="rateindex labelrate" title="Bad"></label>
+                                        </div>
+                                        <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                    </div>
+                                {% elif  passenger.rate == 2 %}
+                                    <div class="d-flex justify-content-between border-bottom align-items-baseline">
+                                        <div>
+                                            <label class="rateindex labelrate" title="Meh"></label>
+                                            <label class="rateindex labelrate" title="Meh"></label>
+                                        </div>
+                                        <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                    </div>
+                                {% elif passenger.rate == 3 %}
+                                    <div class="d-flex justify-content-between border-bottom align-items-baseline">
+                                        <div>
+                                            <label class="rateindex labelrate" title="Ok"></label>
+                                            <label class="rateindex labelrate" title="Ok"></label>
+                                            <label class="rateindex labelrate" title="Ok"></label>
+                                        </div>
+                                        <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                    </div>
+                                {% elif passenger.rate == 4 %}
+                                    <div class="d-flex justify-content-between border-bottom align-items-baseline">
+                                        <div>
+                                            <label class="rateindex labelrate" title="Good"></label>
+                                            <label class="rateindex labelrate" title="Good"></label>
+                                            <label class="rateindex labelrate" title="Good"></label>
+                                            <label class="rateindex labelrate" title="Good"></label>
+                                        </div>
+                                        <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                    </div>
+                                {% else %}
+                                    <div class="d-flex justify-content-between border-bottom align-items-baseline">
+                                        <div>
+                                            <label class="rateindex labelrate" title="Amazing"></label>
+                                            <label class="rateindex labelrate" title="Amazing"></label>
+                                            <label class="rateindex labelrate" title="Amazing"></label>
+                                            <label class="rateindex labelrate" title="Amazing"></label>
+                                            <label class="rateindex labelrate" title="Amazing"></label>
+                                        </div>
+                                        <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                    
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 col-md-12 px-0">
+                    <h3 class="mb-3" style="color:#17a2b8;">Status</h3>
+                    {% for passenger in status %}
+                        <div class=" mb-3 px-3">
+                            <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                            <a href="{% url 'book' passenger.book %}" class="hover mb-3" id="singleBook"><p class="mb-3">{{ passenger.title }}</p></a>
+                            <div>
+                                {% if passenger.status == "read" %}
+                                <div class="d-flex justify-content-between border-bottom">
+                                    <p class="h5 mb-2 pb-1">Read</p>
+                                    <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                </div>
+                                {% elif  passenger.status == "wishlist" %}
+                                <div class="d-flex justify-content-between border-bottom">
+                                    <p class="h5 mb-2 pb-1">Wishlist</p>
+                                    <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                </div>
+                                {% elif passenger.status == "toread" %}
+                                <div class="d-flex justify-content-between border-bottom">
+                                    <p class="h6 mb-2 pb-1">To Read</p>
+                                    <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                </div>
+                                {% elif passenger.status == "reading" %}
+                                <div class="d-flex justify-content-between border-bottom">
+                                    <p class="h5 mb-2 pb-1">Reading</p>
+                                    <a href="{% url 'mylibrary' passenger.user_id %}"><p class="h6"> by {{passenger.user_id}}</p></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                    
+                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="reviewsContainer" class="mt-5 pl-4 container">
+            <h3 class="mb-3" style="color:#17a2b8;">Reviews</h3>
+            {% for passenger in reviews %}
+
+                
+                    <div class="eachreview mx-4">
+                        <input type="hidden" id="bookId" name="bookId" value="{{ passenger.book }}">
+                        <a href="{% url 'book' passenger.book %}" class="hover h4" id="singleBook">{{ passenger.title }}</a>
+                        <p class="text-left mt-4"> {{ passenger.review }}</p>
+                    </div>
+                
+            {% empty %}
+            
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    
+{% endblock %}

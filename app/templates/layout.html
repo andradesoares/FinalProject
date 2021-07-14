@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Books{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <link href="../static/styles.css" rel="stylesheet">
+
+        {% block script %}
+        {% endblock %}
+    </head>
+    <body>
+
+        <header class="bg-info">
+          <nav class="navbar container navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">Books</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                {% if user.is_authenticated %}
+                  <input type="hidden" id="userauth" name="userauth" value="{{user}}">
+                  <li id="logoutnav" class="nav-item">
+                    <a  class="nav-link" href="{% url 'mylibrary' user.username %}">My Library</a>
+                  </li>
+                  <li id="logoutnav" class="nav-item">
+                    <a  class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                  </li>
+                {% else %}
+                  <input type="hidden" id="userauth" name="userauth" value="{{user}}">
+                  <li id="login" class="nav-item">
+                    <a class="nav-link" type="button" class="nav-link" data-toggle="modal" data-target="#loginModal">
+                        Login
+                    </a>
+                  </li>
+                  <li id="register" class="nav-item">
+                    <a class="nav-link" type="button" class="nav-link" data-toggle="modal" data-target="#registerModal">
+                        Register
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input id="buscaBooks" class="form-control mr-sm-2" type="search" placeholder="Search">
+                <button id="buscaButton" class="btn-search btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+        </header>
+          
+          
+          <!--Login Modal -->
+          <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body modal-body-login">
+                    <form action="#" method="post">
+                        <div class="form-group">
+                            <input autofocus class="form-control" id="loginUser" type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="loginPass" type="password" name="password" placeholder="Password">
+                        </div>
+                    </form>          
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <a id="launchRegisterModal" class="text-info">Doesn't have an account? Register.</a>
+                  <a></a>
+                  <div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="login" class="btn btn-primary">Log In</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Register Modal -->
+          <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body modal-body-register">
+                    <form action="#" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="form-control" id="registerUser" autofocus type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="registerEmail" type="email" name="email" placeholder="Email Address">
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-group">
+                                <input class="form-control" id="registerPass" type="password" name="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="registerConfirmation" type="password" name="confirmation" placeholder="Confirm Password">
+                            </div>
+                        </div>
+                    </form>
+                    <p id="message"></p> 
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <a id="launchLoginModal" class="text-info">Already have an account? Log in.</a>
+                  <div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="register" class="btn btn-primary">Register</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    </body>
+        <script src="{% static 'index.js' %}"></script>
+</html>
